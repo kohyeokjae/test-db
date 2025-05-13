@@ -138,11 +138,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ResponseDto<Void> deleteMenu(Long id) {
+    public ResponseDto<Void> deleteMenu(Long restaurantId, Long id) {
         try {
             Menu menu = menuRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("메뉴 not found with id: " + id));
 
+            if (!menu.getRestaurant().getId().equals(restaurantId)) {
+                throw new IllegalArgumentException("일치하지 않음");
+            }
             menuRepository.deleteById(id);
 
             return ResponseDto.setSuccess("삭제 성공하였습니다.", null);

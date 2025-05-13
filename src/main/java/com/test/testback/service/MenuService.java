@@ -18,5 +18,5 @@ public interface MenuService {
 
     ResponseDto<MenuResponseDto> updateMenu(Long id, PostMenuRequestDto dto);
 
-    ResponseDto<Void> deleteMenu(Long id);
+    ResponseDto<Void> deleteMenu(Long restaurantId, Long id);
 }
