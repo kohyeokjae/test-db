@@ -29,8 +29,8 @@ public class MenuController {
     }
 
     @GetMapping("/{menuId}")
-    public ResponseEntity<ResponseDto<MenuResponseDto>> getByIdMenu(@PathVariable Long menuId){
-        ResponseDto<MenuResponseDto> response = menuService.getByIdMenu(menuId);
+    public ResponseEntity<ResponseDto<MenuResponseDto>> getByIdMenu(RestaurantResponseDto responseDto, @PathVariable Long menuId) {
+        ResponseDto<MenuResponseDto> response = menuService.getByIdMenu(responseDto.getId(), menuId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -44,15 +44,16 @@ public class MenuController {
 
     @PutMapping("/{menuId}")
     public ResponseEntity<ResponseDto<MenuResponseDto>> updateMenu(
+            RestaurantResponseDto responseDto,
             @PathVariable Long menuId,
             @RequestBody PostMenuRequestDto dto) {
-        ResponseDto<MenuResponseDto> response = menuService.updateMenu(menuId, dto);
+        ResponseDto<MenuResponseDto> response = menuService.updateMenu(responseDto.getId(), menuId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{menuId}")
     public ResponseEntity<ResponseDto<Void>> deleteMenu(RestaurantResponseDto responseDto, @PathVariable Long menuId) {
-        ResponseDto<Void> response = menuService.deleteMenu(responseDto.getId() ,menuId);
+        ResponseDto<Void> response = menuService.deleteMenu(responseDto.getId(), menuId);
         return ResponseEntity.noContent().build();
     }
 }

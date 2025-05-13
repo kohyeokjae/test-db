@@ -89,11 +89,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ResponseDto<MenuResponseDto> getByIdMenu(Long id) {
+    public ResponseDto<MenuResponseDto> getByIdMenu(Long restaurantId, Long id) {
         MenuResponseDto responseDto = null;
         try {
             Menu menu = menuRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("메뉴 not found with id: " + id));
+
+            if (!menu.getRestaurant().getId().equals(restaurantId)) {
+                throw new IllegalArgumentException("일치하지 않음");
+            }
 
             responseDto = MenuResponseDto.builder()
                     .id(menu.getId())
@@ -110,12 +114,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ResponseDto<MenuResponseDto> updateMenu(Long id, PostMenuRequestDto dto) {
+    public ResponseDto<MenuResponseDto> updateMenu(Long restaurantId, Long id, PostMenuRequestDto dto) {
         MenuResponseDto responseDto = null;
         try {
             Menu menu = menuRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("메뉴 not found with id: " + id));
 
+            if (!menu.getRestaurant().getId().equals(restaurantId)) {
+                throw new IllegalArgumentException("일치하지 않음");
+            }
             menu.setName(dto.getName());
             menu.setPrice(dto.getPrice());
             menu.setDescription(dto.getDescription());

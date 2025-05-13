@@ -14,9 +14,9 @@ public interface MenuService {
 
     ResponseDto<List<MenuResponseDto>> findByIdRestaurant(RestaurantResponseDto restaurant);
 
-    ResponseDto<MenuResponseDto> getByIdMenu(Long id);
+    ResponseDto<MenuResponseDto> getByIdMenu(Long restaurantId, Long id);
 
-    ResponseDto<MenuResponseDto> updateMenu(Long id, PostMenuRequestDto dto);
+    ResponseDto<MenuResponseDto> updateMenu(Long restaurantId, Long id, PostMenuRequestDto dto);
 
     ResponseDto<Void> deleteMenu(Long restaurantId, Long id);
 }
